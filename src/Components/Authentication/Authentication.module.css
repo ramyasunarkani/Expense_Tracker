@@ -7,7 +7,9 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+h2{
+    color: #0057b3;
+}
 /* Signup Box */
 .auth    {
     background: white;
@@ -27,9 +29,9 @@ input {
     border-radius: 5px;
     font-size: 16px;
     background-color: white;
+    color: black;
 }
 
-/* Placeholder Effect */
 input::placeholder {
     transition: all 0.3s ease;
     color: #aaa;
@@ -45,23 +47,37 @@ input:focus {
     background-color: #c2d0e0;
 }
 
-/* Button */
-button {
+.sign {
     width: 100%;
     padding: 10px;
     background: #0096ff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 40px;
     cursor: pointer;
     font-size: 16px;
 }
 
-button:hover {
+.sign:hover {
     background: #007acc;
 }
+.toggle{
+    width: 100%;
+    padding: 10px;
+    background: #84ecb5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto;
+    border: none;
 
-/* Login Link */
+}
+.toggle:hover {
+    background: #B2E8B8;
+}
+
 p {
     color: black;
     margin-top: 15px;
