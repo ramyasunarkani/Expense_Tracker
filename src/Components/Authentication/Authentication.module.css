@@ -1,0 +1,77 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, white, #0057b3);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Signup Box */
+.auth    {
+    background: white;
+    padding: 30px;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Input Fields */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+}
+
+/* Placeholder Effect */
+input::placeholder {
+    transition: all 0.3s ease;
+    color: #aaa;
+}
+
+input:focus::placeholder {
+    transform: translateY(-12px);
+    font-size: 12px;
+}
+input:focus {
+    border: 2px solid #8d9cad;
+    outline: none;
+    background-color: #c2d0e0;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0096ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #007acc;
+}
+
+/* Login Link */
+p {
+    color: black;
+    margin-top: 15px;
+}
+
+a {
+    color: #0096ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
