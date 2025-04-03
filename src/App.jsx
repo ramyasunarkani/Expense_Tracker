@@ -5,6 +5,7 @@ import AuthContext from './Store/auth-context'
 import Home from './Components/Expenses/Home';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CompleteProfile from './Components/Profile/CompleteProfile';
+import ForgotPassword from './Components/Authentication/ForgotPassword';
 
 function App() {
   const authctx=useContext(AuthContext);
@@ -16,6 +17,7 @@ function App() {
       <Route path='/' element={<Authentication/>}/>
       <Route path='/home' element={userLogged?<Home/>:<Navigate to='/'/>}/>
       <Route path='/complete-profile' element={userLogged ? <CompleteProfile /> : <Navigate to='/' />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
 
    
     </Routes>

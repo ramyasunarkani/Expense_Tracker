@@ -3,7 +3,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 
 const Authentication = () => {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
 
     return isLogin ? <Login onSwitch={() => setIsLogin(false)} /> : <SignUp onSwitch={() => setIsLogin(true)} />;
 };
