@@ -35,7 +35,7 @@ const Login = ({ onSwitch }) => {
     return (
         <div className={styles['auth-container']}>
             <section>
-            <h2>Login</h2>
+            <h2 className={styles.heading}>Login</h2>
             <form onSubmit={submitHandler} className={styles.auth}>
                 <div className={styles.control}>
                     <input type="email" placeholder="Email" required ref={emailRef} />

@@ -1,0 +1,35 @@
+
+.welcome-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: solid 2px lightgray;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.welcome-text {
+    margin: 2px;
+    font-family: sans-serif;
+    padding: 5px
+    
+}
+
+.incomplete-profile {
+    background-color: #d2cfcf;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 20px;
+    
+}
+
+.incomplete-profile a {
+    color: #4505cf;
+    text-decoration: none;
+}
+
+.incomplete-profile a:hover {
+    text-decoration: underline;
+}

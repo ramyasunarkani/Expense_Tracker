@@ -8,7 +8,7 @@
         align-content: center;
         background: linear-gradient(to bottom right, white, #0057b3);
 }
-h2{
+.heading{
     color: #0057b3;
     text-align: center;
     margin: 2rem;
@@ -22,7 +22,7 @@ h2{
     text-align: center;
 }
 
-input {
+.control input {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
@@ -33,16 +33,16 @@ input {
     color: black;
 }
 
-input::placeholder {
+.control input::placeholder {
     transition: all 0.3s ease;
     color: #aaa;
 }
 
-input:focus::placeholder {
+.control input:focus::placeholder {
     transform: translateY(-12px);
     font-size: 12px;
 }
-input:focus {
+.control input:focus {
     border: 2px solid #8d9cad;
     outline: none;
     background-color: #c2d0e0;

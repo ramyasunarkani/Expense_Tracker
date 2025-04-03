@@ -1,0 +1,70 @@
+.profile-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: solid 2px lightgray;
+
+}
+.profile-text{
+    margin-left: 1rem;
+}
+.profile-per{
+    width: 30%;
+    align-items: center;
+    background-color: #d2cfcf;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+}
+.form {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-left: auto;
+    padding: 20px;
+    margin-top: 1rem;
+}
+.form-heading{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.cancel-btn{
+    border: solid 1px red;
+    background-color: transparent;
+    color: red;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.update-form{
+    width: 100%;
+    border-bottom: solid 1px black;
+}
+.update-control label{
+    font-weight: bold;
+}
+.update-control input{
+    width: 28%;
+    margin: 1rem;
+    
+}
+
+
+.icon {
+    font-size: 20px;
+    margin-right: 15px;
+    color: #333;
+}
+.update-btn{
+    background-color: rgb(191, 70, 70);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 5px;
+    margin-bottom: 1rem;
+}
