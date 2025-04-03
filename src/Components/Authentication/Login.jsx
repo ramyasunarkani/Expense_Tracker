@@ -1,11 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import styles from './Authentication.module.css';
-import { Link } from 'react-router-dom'; // ✅ Import Link
-
+import { Link, useNavigate } from 'react-router-dom'; // ✅ Import Link
+import AuthContext from '../../Store/auth-context';
 
 const Login = ({ onSwitch }) => {
+    const [showPass, setShowPass] = useState(false);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const authCntx = useContext(AuthContext);
+    const navigate=useNavigate();
 
     function submitHandler(event) {
         event.preventDefault();
@@ -20,31 +23,44 @@ const Login = ({ onSwitch }) => {
         })
         .then((res) => res.ok ? res.json() : res.json().then(data => { throw new Error(data.error.message); }))
         .then((data) => {
-            console.log('User logged in:', data);
-            alert('Login successful!');
+            
+            authCntx.login(data.idToken);
+            navigate('/home');
             emailRef.current.value = '';
             passwordRef.current.value = '';
         })
         .catch((err) => alert(`Error: ${err.message}`));
     }
-     
 
     return (
-        <section >
+        <div className={styles['auth-container']}>
+            <section>
             <h2>Login</h2>
             <form onSubmit={submitHandler} className={styles.auth}>
                 <div className={styles.control}>
                     <input type="email" placeholder="Email" required ref={emailRef} />
                 </div>
-                <div className={styles.control}>
-                    <input type="password" placeholder="Password" required ref={passwordRef} />
+                <div className={styles.control} style={{ position: 'relative' }}>
+                    <input 
+                        type={showPass ? "text" : "password"} 
+                        placeholder="Password" 
+                        required 
+                        ref={passwordRef} 
+                        className={styles.passwordInput}
+                    />
+                    <span 
+                        className={styles.showPassIcon} 
+                        onClick={() => setShowPass((prev) => !prev)}
+                    >
+                        {showPass ? "🙈" : "👁️"}
+                    </span>
                 </div>
                 <button type="submit" className={styles.sign}>Login</button>
                 <Link to="/forgot-password" className={styles.forgotPassword}>Forgot Password?</Link>
             </form>
             <button className={styles.toggle} onClick={onSwitch}>Don't have an account? Sign Up</button>
-
         </section>
+        </div>
     );
 };
 

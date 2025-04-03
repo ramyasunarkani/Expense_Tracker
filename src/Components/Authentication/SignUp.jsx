@@ -54,7 +54,8 @@ const SignUp = ({ onSwitch }) => {
     };
 
     return (
-        <section>
+        <div className={styles['auth-container']}>
+            <section >
             <h2>Sign Up</h2>
             <form onSubmit={submitHandler} className={styles.auth}>
                 <div className={styles.control}>
@@ -70,6 +71,7 @@ const SignUp = ({ onSwitch }) => {
             </form>
             <button className={styles.toggle} onClick={onSwitch}>Have an account? Login</button>
         </section>
+        </div>
     );
 };
 

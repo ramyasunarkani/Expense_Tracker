@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './Authentication.module.css';
 import Login from './Login';
 import SignUp from './SignUp';
 

@@ -1,16 +1,18 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom right, white, #0057b3);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.auth-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        background: linear-gradient(to bottom right, white, #0057b3);
 }
 h2{
     color: #0057b3;
+    text-align: center;
+    margin: 2rem;
 }
-/* Signup Box */
 .auth    {
     background: white;
     padding: 30px;
@@ -20,7 +22,6 @@ h2{
     text-align: center;
 }
 
-/* Input Fields */
 input {
     width: 90%;
     padding: 10px;
@@ -77,6 +78,12 @@ input:focus {
 .toggle:hover {
     background: #B2E8B8;
 }
+
+.control{
+    display: flex;
+    align-items: center;
+}
+
 
 p {
     color: black;
