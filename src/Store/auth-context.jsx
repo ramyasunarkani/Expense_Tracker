@@ -8,15 +8,18 @@ const AuthContext = createContext({
 });
 
 export const AuthContextProvider = (props) => {
-    const [token, setToken] = useState('');
+    const initialToken=localStorage.getItem('token');
+    const [token, setToken] = useState(initialToken);
     const userIsLoggedIn = !!token;
 
     const loginHandler = (token) => {
         setToken(token);
+        localStorage.setItem('token',token);
     };
 
     const logoutHandler = () => {
-        setToken(''); 
+        setToken(null) ;
+        localStorage.removeItem('token')
     };
 
     const contextValue = {
@@ -28,7 +31,7 @@ export const AuthContextProvider = (props) => {
 
     return (
         <AuthContext.Provider value={contextValue}>
-            {props.children} {/* Fix: Use props.children */}
+            {props.children} 
         </AuthContext.Provider>
     );
 };

@@ -1,10 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import styles from './Authentication.module.css';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../Store/auth-context';
 
 const SignUp = ({ onSwitch }) => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const conpassRef = useRef(null);
+    const navigate=useNavigate();
+    const authCntx = useContext(AuthContext);
+    
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -12,6 +17,7 @@ const SignUp = ({ onSwitch }) => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const confirmpassword = conpassRef.current.value;
+
 
         if (password !== confirmpassword) {
             alert('Passwords do not match!');
@@ -42,8 +48,9 @@ const SignUp = ({ onSwitch }) => {
             return res.json();
         })
         .then((data) => {
-            console.log('User signed up:', data);
-            alert('Signup successful!');
+            authCntx.login(data.idToken);
+            navigate('/home');
+
             emailRef.current.value = '';
             passwordRef.current.value = '';
             conpassRef.current.value = '';
