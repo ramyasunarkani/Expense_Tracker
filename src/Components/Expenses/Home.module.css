@@ -33,3 +33,17 @@
 .incomplete-profile a:hover {
     text-decoration: underline;
 }
+
+.email-verify {
+display: flex;
+justify-content: center;
+margin-top: 4rem;
+}
+.email-verify button{
+    padding: 8px;
+    border: none;
+    background-color: lightgreen;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
