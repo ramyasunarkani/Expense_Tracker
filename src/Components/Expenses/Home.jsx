@@ -1,8 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Home.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthContext from '../../Store/auth-context'
+import ExpensesForm from './ExpensesForm'
+import { BiPlus } from 'react-icons/bi'
+
 const Home = () => {
+    const [showForm, setShowForm] = useState(false);
+
   const navigate = useNavigate(); // ✅ useNavigate inside a valid component
   const authCtx=useContext(AuthContext);
   const token=authCtx.token;
@@ -48,9 +53,18 @@ const Home = () => {
         <button className={styles["logout-btn"]} onClick={()=>logOutHandler()}>Logout</button>
         </div>
     </div>
-    <div className={styles["email-verify"]}>
+    {/* <div className={styles["email-verify"]}>
         <button type='submit' onClick={emailVerifyHandler}>Verify Email</button>
-    </div>
+    </div> */}
+    {showForm && <ExpensesForm />}
+
+      {/* ➕ Floating Button */}
+      <div
+        className={styles["floating-btn"]}
+        onClick={() => setShowForm(!showForm)}
+      >
+        <BiPlus size={28} />
+      </div>
    </>
   )
 }
