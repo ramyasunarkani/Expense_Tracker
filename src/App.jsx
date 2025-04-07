@@ -10,11 +10,10 @@ import ForgotPassword from './Components/Authentication/ForgotPassword';
 function App() {
   const authctx=useContext(AuthContext);
   const userLogged=authctx.isLoggedIn;
-
   return (
     <>
     <Routes>
-      <Route path='/' element={<Authentication/>}/>
+      <Route path='/' element={userLogged ? <Navigate to="/home" /> : <Authentication />} />
       <Route path='/home' element={userLogged?<Home/>:<Navigate to='/'/>}/>
       <Route path='/complete-profile' element={userLogged ? <CompleteProfile /> : <Navigate to='/' />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />

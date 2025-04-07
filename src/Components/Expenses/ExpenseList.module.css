@@ -1,0 +1,32 @@
+.list-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.expense-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.category {
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #333;
+}
+
+.category:hover {
+    color: #4caf50;
+}
+
+.description {
+    margin-top: 8px;
+    font-style: italic;
+    color: #555;
+    padding-left: 10px;
+}
