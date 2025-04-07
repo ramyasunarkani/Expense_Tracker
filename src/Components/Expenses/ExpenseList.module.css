@@ -1,32 +1,103 @@
-.list-container {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
+.expense-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .expense-item {
-    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ccc;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    transition: all 0.3s ease;
+    position: relative;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 .category {
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
-    color: #333;
-}
-
-.category:hover {
-    color: #4caf50;
+    margin-right: 50px;
 }
 
 .description {
-    margin-top: 8px;
+    margin-top: 5px;
     font-style: italic;
     color: #555;
-    padding-left: 10px;
+}
+
+.action-icons {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    font-size: 1.2rem;
+    color: steelblue;
+    cursor: pointer;
+}
+
+.icon:hover {
+    color: crimson;
+}
+
+.form-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #f0f8ff;
+    padding: 20px;
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+    transition: bottom 0.3s ease-in-out;
+    z-index: 10000;
+}
+
+.form-container.active {
+    bottom: 0;
+}
+
+.form-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.edit-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.input-group {
+    width: 30%;
+    margin: 5px;
+    padding: 5px;
+}
+
+.submit-btn {
+    width: auto;
+    padding: 10px 20px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 3rem;
+    display: block;
+    margin-left: auto;
+}
+
+.cancel-btn {
+    padding: 10px 20px;
+    background: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 1rem auto 0;
+    display: block;
 }

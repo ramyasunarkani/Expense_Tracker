@@ -9,19 +9,19 @@ import axios from 'axios'
 
 const Home = () => {
     const [expenseList, setExpenseList] = useState([]);
-  
+    const [editingExpense, setEditingExpense] = useState(null);
+
     const [showForm, setShowForm] = useState(false);
 
-  const navigate = useNavigate(); // ✅ useNavigate inside a valid component
+  const navigate = useNavigate(); 
   const authCtx=useContext(AuthContext);
-  const token=authCtx.token;
+
   function logOutHandler() {
         authCtx.logout(); 
         console.log("Redirecting to login..."); 
         navigate('/');
     }
-    useEffect(() => {
-        const fetchExpenses = async () => {
+     const fetchExpenses = async () => {
           try {
             const response = await axios.get(
               'https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses.json'
@@ -45,37 +45,31 @@ const Home = () => {
             console.error('Error fetching expenses:', error);
           }
         };
+
+
+
+    useEffect(() => {
     
         fetchExpenses();
       }, []);
     
-  // function emailVerifyHandler(){
-  //   fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',{
-  //     method:'POST',
-  //     body:JSON.stringify({"requestType":"VERIFY_EMAIL","idToken":token}),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   }).then((res)=>{
-  //     if(!res.ok){
-  //       return res.json().then((data)=>{
-  //         let errorMessage = 'Authentication failed!';
-  //         if (data && data.error && data.error.message) {
-  //             errorMessage = data.error.message;
-  //         }
-  //         throw new Error(errorMessage);
-  //       })
-  //     }
-  //     return res.json();
-  //   }).then((data)=>{
-  //         console.log('verification sent', data);
 
-  //   }).catch((err) => {
-  //           alert(`Error: ${err.message}`);
-  //       });
-  // }
+ const addOrUpdateExpenseHandler = (expense, isEdit = false) => {
+    if (!isEdit) {
+      setExpenseList((prev) => [expense, ...prev]);
+    }
+    fetchExpenses();
+    setShowForm(false);
+    setEditingExpense(null);
+  };
 
-  const addExpenseHandler = (expense) => {
-  setExpenseList((prev) => [expense, ...prev]);
-};
+  const startEditHandler = (expense) => {
+    setEditingExpense(expense);
+    setShowForm(true);
+  };
+  const handleAddNewClick = () => {
+    setEditingExpense(null); // Set to null to show empty form
+  };
 
   return (
 
@@ -89,24 +83,33 @@ const Home = () => {
         <button className={styles["logout-btn"]} onClick={()=>logOutHandler()}>Logout</button>
         </div>
     </div>
-    {/* <div className={styles["email-verify"]}>
-        <button type='submit' onClick={emailVerifyHandler}>Verify Email</button>
-    </div> */}
-    <ExpenseList expenseList={expenseList}/>
+    
+    <ExpenseList 
+    expenseList={expenseList} 
+    fetchExpenses={fetchExpenses}
+    onEditExpense={startEditHandler}
+    />
     {showForm && (
   <div
     className={styles["overlay"]}
     onClick={() => setShowForm(false)}
   >
     <div onClick={(e) => e.stopPropagation()}>
-      <ExpensesForm  onAddExpense={addExpenseHandler}/>
+      <ExpensesForm  
+       onAddExpense={addOrUpdateExpenseHandler}
+       editingExpense={editingExpense}
+              />
     </div>
   </div>
 )}
 
       {!showForm&&(<div
         className={styles["floating-btn"]}
-        onClick={() => { console.log("clicked"); setShowForm(true); }}
+        onClick={() => {
+           console.log("clicked"); 
+           setEditingExpense(null);
+            setShowForm(true);
+          }}
 
       >
         <BiPlus size={28} />
