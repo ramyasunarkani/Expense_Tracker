@@ -1,36 +1,54 @@
 import React, { useContext, useRef, useState } from 'react';
-import styles from './Authentication.module.css';
+import styles from './Authentication.module.css'
 import { Link, useNavigate } from 'react-router-dom'; // ✅ Import Link
-import AuthContext from '../../Store/auth-context';
+import { authActions } from '../../Store/auth';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
-const Login = ({ onSwitch }) => {
+const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
-    const authCntx = useContext(AuthContext);
+    const dispatch=useDispatch();
     const navigate=useNavigate();
 
-    function submitHandler(event) {
+     async function submitHandler(event) {
         event.preventDefault();
 
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI', {
-            method: 'POST',
-            body: JSON.stringify({ email, password, returnSecureToken: true }),
-            headers: { 'Content-Type': 'application/json' },
-        })
-        .then((res) => res.ok ? res.json() : res.json().then(data => { throw new Error(data.error.message); }))
-        .then((data) => {
-            
-            authCntx.login(data.idToken);
+         try {
+            const response = await axios.post(
+                'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
+                {
+                    email,
+                    password,
+                    returnSecureToken: true
+                },
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+
+            const data = response.data;
+
+            dispatch(authActions.login({
+            token: data.idToken,
+            userId: data.localId
+            }));
+            console.log({
+            token: data.idToken,
+            userId: data.localId
+            })
             navigate('/home');
+
             emailRef.current.value = '';
             passwordRef.current.value = '';
-        })
-        .catch((err) => alert(`Error: ${err.message}`));
-    }
+        } catch (error) {
+            alert(`Error: ${error.response?.data?.error?.message || 'Login failed'}`);
+        }
+    }    
 
     return (
         <div className={styles['auth-container']}>
@@ -58,7 +76,10 @@ const Login = ({ onSwitch }) => {
                 <button type="submit" className={styles.sign}>Login</button>
                 <Link to="/forgot-password" className={styles.forgotPassword}>Forgot Password?</Link>
             </form>
-            <button className={styles.toggle} onClick={onSwitch}>Don't have an account? Sign Up</button>
+            <button className={styles.toggle} 
+            onClick={()=>{    
+            navigate('/signUp');
+            }}>Don't have an account? Sign Up</button>
         </section>
         </div>
     );

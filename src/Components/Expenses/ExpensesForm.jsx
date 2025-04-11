@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './ExpensesForm.module.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const ExpensesForm = ({ onAddExpense, editingExpense }) => {
   const descriptionRef = useRef(null);
   const amountRef = useRef(null);
   const categoryRef = useRef(null);
+  const token=useSelector(state=>state.auth.token);
+  const userId=useSelector(state=>state.auth.userId);
 
   useEffect(() => {
     if (editingExpense) {
@@ -13,7 +16,6 @@ const ExpensesForm = ({ onAddExpense, editingExpense }) => {
       amountRef.current.value = editingExpense.amount;
       categoryRef.current.value = editingExpense.category;
     } else {
-      // Clear fields when not editing
       descriptionRef.current.value = '';
       amountRef.current.value = '';
       categoryRef.current.value = '';
@@ -37,18 +39,21 @@ const ExpensesForm = ({ onAddExpense, editingExpense }) => {
       if (editingExpense) {
         // 🔧 Fix: send full object as the second argument to PUT
         await axios.put(
-          `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${editingExpense.id}.json`,
+          `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}/${editingExpense.id}.json?auth=${token}`,
           newExpense
         );
+
+
 
         onAddExpense({ id: editingExpense.id, ...newExpense }, true); // Update with ID
         console.log('Expense updated successfully');
       } else {
         // 🔧 Fix: pass single object as the second arg to POST
         const res = await axios.post(
-          'https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses.json',
-          newExpense
-        );
+        `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}.json?auth=${token}`,
+        newExpense
+      );
+
 
         const newExpenseWithId = { id: res.data.name, ...newExpense };
         onAddExpense(newExpenseWithId); 

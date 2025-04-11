@@ -1,30 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import styles from './Home.module.css'
 import { Link, useNavigate } from 'react-router-dom'
-import AuthContext from '../../Store/auth-context'
 import { BiPlus } from 'react-icons/bi'
 import ExpensesForm from './ExpensesForm'
 import ExpenseList from './ExpenseList'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { authActions } from '../../Store/auth'
+import { expensesActions } from '../../Store/expenses'
 
 const Home = () => {
-    const [expenseList, setExpenseList] = useState([]);
     const [editingExpense, setEditingExpense] = useState(null);
+    const userId=useSelector((state)=>state.auth.userId);
+    const token=useSelector((state)=>state.auth.token);
+    const dispatch=useDispatch();
 
     const [showForm, setShowForm] = useState(false);
 
   const navigate = useNavigate(); 
-  const authCtx=useContext(AuthContext);
 
   function logOutHandler() {
-        authCtx.logout(); 
+        dispatch(authActions.logout()) 
         console.log("Redirecting to login..."); 
         navigate('/');
     }
      const fetchExpenses = async () => {
           try {
             const response = await axios.get(
-              'https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses.json'
+              `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}.json?auth=${token}`
             );
     
             const data = response.data;
@@ -39,8 +42,8 @@ const Home = () => {
                 description: data[key].description
               });
             }
+            dispatch(expensesActions.setExpenses(loadedExpenses));
     
-            setExpenseList(loadedExpenses);
           } catch (error) {
             console.error('Error fetching expenses:', error);
           }
@@ -56,7 +59,7 @@ const Home = () => {
 
  const addOrUpdateExpenseHandler = (expense, isEdit = false) => {
     if (!isEdit) {
-      setExpenseList((prev) => [expense, ...prev]);
+      dispatch(expensesActions.addExpense(expense))
     }
     fetchExpenses();
     setShowForm(false);
@@ -67,10 +70,7 @@ const Home = () => {
     setEditingExpense(expense);
     setShowForm(true);
   };
-  const handleAddNewClick = () => {
-    setEditingExpense(null); // Set to null to show empty form
-  };
-
+  
   return (
 
    <div >
@@ -80,12 +80,13 @@ const Home = () => {
           <p className={styles["incomplete-profile"]}> Your profile is incomplete.
            <Link to='/complete-profile'>Complete Now</Link>
            </p>
-        <button className={styles["logout-btn"]} onClick={()=>logOutHandler()}>Logout</button>
+        <button className={styles["logout-btn"]}
+         onClick={()=>logOutHandler()}>
+        Logout</button>
         </div>
     </div>
     
     <ExpenseList 
-    expenseList={expenseList} 
     fetchExpenses={fetchExpenses}
     onEditExpense={startEditHandler}
     />

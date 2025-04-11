@@ -1,83 +1,88 @@
 import { FaGithub, FaGlobe } from "react-icons/fa";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import styles from "./CompleteProfile.module.css";
 import { Link } from "react-router-dom";
-import AuthContext from "../../Store/auth-context";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const CompleteProfile = () => {
     const fullNameRef=useRef('');
     const photoUrlRef=useRef('');
-    const authCtx=useContext(AuthContext)
+    const token=useSelector(state=>state.auth.token);
 
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState({ fullName: '', photoUrl: '' });
-
-    useEffect(() => {
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI', {
-            method: 'POST',
-            body: JSON.stringify({ idToken: authCtx.token }),
-            headers: { 'Content-Type': 'application/json' },
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.users && data.users.length > 0) {
-                setProfileData({
-                    fullName: data.users[0].displayName || '',
-                    photoUrl: data.users[0].photoUrl || ''
-                });
-            }
-            setIsLoading(false);
-        })
-        .catch(err => {
-            console.error('Error fetching profile:', err);
-            setIsLoading(false);
-        });
-    }, [authCtx.token]);
+    async function profileDataFetch(){
+      try{
+          const res= await axios.post(
+          'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
+          {
+            idToken: token // ✅ correct place
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
 
 
-
-    function submitHandler(event){
-        event.preventDefault();
-        const EnteredFullname=fullNameRef.current.value;
-        const EnteredPhotoUrl=photoUrlRef.current.value;
-        
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                     idToken:authCtx.token,
-                    displayName:EnteredFullname,
-                    photoUrl:EnteredPhotoUrl,
-                    returnSecureToken:true
-                }),
-                headers: { 'Content-Type': 'application/json' },
-
-            }
-        ).then((res) => {
-            if (!res.ok) {
-                return res.json().then((data) => {
-                    let errorMessage = 'Authentication failed!';
-                    if (data && data.error && data.error.message) {
-                        errorMessage = data.error.message;
-                    }
-                    throw new Error(errorMessage);
-                });
-            }
-            return res.json();
-        })
-        .then((data) => {
-            console.log('user update', data);
-            fullNameRef.current.value='';
-            photoUrlRef.current.value='';
-        })
-        .catch((err) => {
-            alert(`Error: ${err.message}`);
-        });
-        
-
-
+    const data = res.data;
+    if (data.users && data.users.length > 0) {
+      setProfileData({
+        fullName: data.users[0].displayName || '',
+        photoUrl: data.users[0].photoUrl || ''
+      });
     }
+  setIsLoading(false);
+}
+    catch(err){
+      console.error('Error fetching profile:', err);
+      setIsLoading(false);
+    };
+}
 
+   useEffect(() => {
+  if (token && token.trim().length > 0) {
+    profileDataFetch();
+  } else {
+    console.warn("Token not found yet. Skipping profile fetch.");
+  }
+}, [token]);
+
+
+
+
+    const submitHandler = async (event) => {
+  event.preventDefault();
+
+  const EnteredFullname = fullNameRef.current.value;
+  const EnteredPhotoUrl = photoUrlRef.current.value;
+
+  try {
+    const res = await axios.post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
+      {
+        idToken: token,
+        displayName: EnteredFullname,
+        photoUrl: EnteredPhotoUrl,
+        returnSecureToken: true
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    console.log('user update', res.data);
+    fullNameRef.current.value = '';
+    photoUrlRef.current.value = '';
+    setTimeout(() => {
+  profileDataFetch();
+}, 500); // wait 0.5 second
+
+  } catch (err) {
+    const errorMessage = err.response?.data?.error?.message || 'Something went wrong!';
+    alert(`Error: ${errorMessage}`);
+  }
+};
 
   return (
     <>

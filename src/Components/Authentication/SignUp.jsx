@@ -1,64 +1,56 @@
 import React, { useContext, useRef } from 'react';
 import styles from './Authentication.module.css';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../Store/auth-context';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../Store/auth';
+import axios from 'axios';
 
-const SignUp = ({ onSwitch }) => {
+const SignUp = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const conpassRef = useRef(null);
     const navigate=useNavigate();
-    const authCntx = useContext(AuthContext);
-    
+    const dispatch=useDispatch();
 
-    const submitHandler = (event) => {
-        event.preventDefault();
+   const submitHandler = (event) => {
+    event.preventDefault();
 
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-        const confirmpassword = conpassRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const confirmpassword = conpassRef.current.value;
 
+    if (password !== confirmpassword) {
+        alert('Passwords do not match!');
+        return;
+    }
 
-        if (password !== confirmpassword) {
-            alert('Passwords do not match!');
-            return;
-        }
-
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                returnSecureToken: true,
-            }),
+    axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
+        {
+            email: email,
+            password: password,
+            returnSecureToken: true
+        },
+        {
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then((res) => {
-            if (!res.ok) {
-                return res.json().then((data) => {
-                    let errorMessage = 'Authentication failed!';
-                    if (data && data.error && data.error.message) {
-                        errorMessage = data.error.message;
-                    }
-                    throw new Error(errorMessage);
-                });
+                'Content-Type': 'application/json'
             }
-            return res.json();
-        })
-        .then((data) => {
-            authCntx.login(data.idToken);
-            navigate('/home');
+        }
+    )
+    .then((res) => {
+        dispatch(authActions.login(res.data.idToken));
+        navigate('/home');
 
-            emailRef.current.value = '';
-            passwordRef.current.value = '';
-            conpassRef.current.value = '';
-        })
-        .catch((err) => {
-            alert(`Error: ${err.message}`);
-        });
-    };
+        emailRef.current.value = '';
+        passwordRef.current.value = '';
+        conpassRef.current.value = '';
+    })
+    .catch((err) => {
+        const errorMessage = err.response?.data?.error?.message || 'Something went wrong!';
+        alert(`Error: ${errorMessage}`);
+    });
+};
+
 
     return (
         <div className={styles['auth-container']}>
@@ -76,7 +68,9 @@ const SignUp = ({ onSwitch }) => {
                 </div>
                 <button type="submit" className={styles.sign}>Sign Up</button>
             </form>
-            <button className={styles.toggle} onClick={onSwitch}>Have an account? Login</button>
+            <button className={styles.toggle} onClick={()=>{
+             navigate('/login');
+             }}>Have an account? Login</button>
         </section>
         </div>
     );
