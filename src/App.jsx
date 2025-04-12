@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import './App.css'
 import Home from './Components/Expenses/Home';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -7,24 +6,43 @@ import ForgotPassword from './Components/Authentication/ForgotPassword';
 import { useSelector } from 'react-redux';
 import Login from './Components/Authentication/Login';
 import SignUp from './Components/Authentication/SignUp';
+import { useEffect } from 'react';
 
 function App() {
-  const userLogged=useSelector(state=>state.auth.isLoggedIn)
-  return (
-    <>
-    <Routes>
-    <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signUp" element={<SignUp />} />
-      <Route path='/' element={userLogged ? <Navigate to="/home" /> : <Login />} />
-      <Route path='/home' element={userLogged?<Home/>:<Navigate to='/'/>}/>
-      <Route path='/complete-profile' element={userLogged ? <CompleteProfile /> : <Navigate to='/' />} />
-      <Route path='/forgot-password' element={<ForgotPassword />} />
+  const userLogged = useSelector(state => state.auth.isLoggedIn);
+  const mode = useSelector(state => state.theme.mode);
 
-   
+useEffect(() => {
+  document.body.className = mode; // will be 'light' or 'dark'
+}, [mode]);
+
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={userLogged ? "/home" : "/login"} />} />
+      
+      <Route 
+        path="/login" 
+        element={userLogged ? <Navigate to="/home" /> : <Login />} 
+      />
+      
+      <Route 
+        path="/signUp" 
+        element={userLogged ? <Navigate to="/home" /> : <SignUp />} 
+      />
+
+      <Route 
+        path="/home" 
+        element={userLogged ? <Home /> : <Navigate to="/login" />} 
+      />
+
+      <Route 
+        path="/complete-profile" 
+        element={userLogged ? <CompleteProfile /> : <Navigate to="/login" />} 
+      />
+
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

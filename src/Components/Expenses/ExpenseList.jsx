@@ -5,6 +5,7 @@ import { BiEdit } from 'react-icons/bi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { useSelector,useDispatch } from 'react-redux';
 import { expensesActions } from '../../Store/expenses';
+import { themeActions } from '../../Store/theme';
 const ExpenseList = ({fetchExpenses, onEditExpense }) => {
   const [expandedIndexes, setExpandedIndexes] = useState(new Set());
   const userId = useSelector((state) => state.auth.userId);
@@ -22,7 +23,7 @@ const ExpenseList = ({fetchExpenses, onEditExpense }) => {
       `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}/${id}.json?auth=${token}`
     );
         
-    dispatch(expensesActions.deleteExpense(id)); // ✅ update Redux instead of refetching
+    dispatch(expensesActions.deleteExpense(id));
 
     console.log('Expense deleted successfully.');
   } catch (err) {

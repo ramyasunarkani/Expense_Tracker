@@ -30,12 +30,13 @@
     font-size: 1rem;
     cursor: pointer;
     margin-right: 50px;
+    color: rgb(158, 84, 84);
 }
 
 .description {
     margin-top: 5px;
     font-style: italic;
-    color: #555;
+    color: #915e5e;
 }
 
 .action-icons {
@@ -44,6 +45,32 @@
     top: 10px;
     display: flex;
     gap: 10px;
+}
+.premiumTools {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    top: 2rem;
+    right: 0;
+    z-index: 10;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown button {
+    display: block;
+    margin: 0.5rem 0;
+    background: #f0f0f0;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    border-radius: 6px;
 }
 
 .icon {
