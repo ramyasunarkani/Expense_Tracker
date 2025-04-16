@@ -68,3 +68,23 @@
     padding: 5px;
     margin-bottom: 1rem;
 }
+.updateBtn{
+    background-color: rgb(191, 70, 70);
+        border: none;
+        border-radius: 3px;
+        color: white;
+        padding: 5px;
+        margin: 1rem;
+        display: flex;
+        justify-self: flex-end;
+
+}
+.profile-dp {
+    /* Make sure this class doesn't hide or distort the image */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* If you want circular image */
+    object-fit: cover;
+    /* If you want to maintain image aspect ratio */
+}

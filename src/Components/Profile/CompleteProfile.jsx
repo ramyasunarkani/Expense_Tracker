@@ -2,13 +2,16 @@ import { FaGithub, FaGlobe } from "react-icons/fa";
 import React, {  useEffect, useRef, useState } from "react";
 import styles from "./CompleteProfile.module.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { profileActions } from "../../Store/profile";
 
 const CompleteProfile = () => {
     const fullNameRef=useRef('');
     const photoUrlRef=useRef('');
     const token=useSelector(state=>state.auth.token);
+    const[update,setUpdate]=useState(false);
+    const dispatch=useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState({ fullName: '', photoUrl: '' });
@@ -25,11 +28,20 @@ const CompleteProfile = () => {
 
     const data = res.data;
     if (data.users && data.users.length > 0) {
+      const user = data.users[0];
+      const fullName = user.displayName || '';
+      const photoUrl = user.photoUrl || '';
+
+      // Dispatch profileCompletion action if both name and photoUrl exist
+      if (fullName.trim().length > 0 && photoUrl.trim().length > 0) {
+          dispatch(profileActions.profileCompletion()); // Mark profile as complete in Redux
+      }
+
       setProfileData({
-        fullName: data.users[0].displayName || '',
-        photoUrl: data.users[0].photoUrl || ''
+          fullName: fullName,
+          photoUrl: photoUrl
       });
-    }
+  }
   setIsLoading(false);
 }
     catch(err){
@@ -87,20 +99,45 @@ const CompleteProfile = () => {
   return (
     <>
       <div className={styles["profile-container"]}>
-        <div className={styles["profile-text"]}>Winner never quit, Quitters never win.</div>
+        {profileData.fullName || profileData.photoUrl ? (
+          <div className={styles["profile-info"]}>
+           <img
+            src={profileData.photoUrl || "https://i.pravatar.cc/100"}
+            alt="Profile"
+            className={styles["profile-dp"]}
+            />
+
+            <h2 className={styles["profile-name"]}>{profileData.fullName || "User"}</h2>
+          </div>
+        ) : (
+          <div className={styles["profile-text"]}>
+            Winner never quit, Quitters never win.
+          </div>
+        )}
+
         <p className={styles["profile-per"]}>
-          Your profile is 64% completed. A complete profile has higher chances of landing a job.{" "}
-          <Link to="/complete-profile">Complete Now</Link>
+          {profileData.fullName && profileData.photoUrl ? (
+            <> Your profile is 100% complete. Great job!</>
+
+          ) : (
+            <>
+               Your profile is incomplete. Completing it increases your job opportunities.{" "}
+              <Link to="/complete-profile">Complete Now</Link>
+            </>
+          )}
         </p>
       </div>
       
-      <div className={styles.form}>
+     {update?( <div className={styles.form}>
         <div className={styles["form-heading"]}>
           <h3>Contact Details:</h3>
-          <button className={styles["cancel-btn"]}>Cancel</button>
+          <button className={styles["cancel-btn"]}
+          onClick={()=>setUpdate(false)}
+          >Cancel</button>
         </div>
         
-        {isLoading?(<p>Loading...</p>):(<form className={styles["update-form"]} onSubmit={submitHandler}>
+        {isLoading?(<p>Loading...</p>):(
+          <form className={styles["update-form"]} onSubmit={submitHandler}>
           <div className={styles["update-control"]}>
             <span className={styles["input-group"]}>
               <FaGithub className={styles.icon} />  
@@ -116,7 +153,7 @@ const CompleteProfile = () => {
           </div>
           <button type="submit" className={styles["update-btn"]} >Update</button>
         </form>)}
-      </div>
+      </div>):(<button onClick={()=>setUpdate(true)} className={styles.updateBtn}>Update</button>)}
     </>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useContext, useRef, useState } from 'react';
 import styles from './Authentication.module.css'
-import { Link, useNavigate } from 'react-router-dom'; // ✅ Import Link
+import { Link, useNavigate } from 'react-router-dom'; 
 import { authActions } from '../../Store/auth';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
@@ -52,25 +53,28 @@ const Login = () => {
 
     return (
         <div className={styles['auth-container']}>
-            <section>
-            <h2 className={styles.heading}>Login</h2>
-            <form onSubmit={submitHandler} className={styles.auth}>
+            <section className={styles.section}>
+            <h1 className={styles.heading}>Login</h1>
+            <form onSubmit={submitHandler} >
                 <div className={styles.control}>
-                    <input type="email" placeholder="Email" required ref={emailRef} />
+                <label htmlFor='email'>Email</label>
+                    <input type="email" id='email' placeholder="Email" required ref={emailRef} />
                 </div>
                 <div className={styles.control} style={{ position: 'relative' }}>
+                  <label htmlFor='pass'>Password</label>
                     <input 
                         type={showPass ? "text" : "password"} 
                         placeholder="Password" 
+                        id='pass'
                         required 
                         ref={passwordRef} 
                         className={styles.passwordInput}
                     />
-                    <span 
-                        className={styles.showPassIcon} 
+                     <span
+                        className={styles.showPassIcon}
                         onClick={() => setShowPass((prev) => !prev)}
-                    >
-                        {showPass ? "🙈" : "👁️"}
+                      >
+                            {showPass ? <FaEyeSlash /> : <FaEye />}
                     </span>
                 </div>
                 <button type="submit" className={styles.sign}>Login</button>
@@ -79,7 +83,7 @@ const Login = () => {
             <button className={styles.toggle} 
             onClick={()=>{    
             navigate('/signUp');
-            }}>Don't have an account? Sign Up</button>
+            }}>New to Sharpener ? Register Now</button>
         </section>
         </div>
     );

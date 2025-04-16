@@ -54,17 +54,20 @@ const SignUp = () => {
 
     return (
         <div className={styles['auth-container']}>
-            <section >
+            <section className={styles.section}>
             <h2 className={styles.heading}>Sign Up</h2>
-            <form onSubmit={submitHandler} className={styles.auth}>
+            <form onSubmit={submitHandler} >
                 <div className={styles.control}>
-                    <input type="email" placeholder="Email" required ref={emailRef} />
+                   <label htmlFor='email'>Email</label>
+                    <input type="email" id='email' placeholder="Email" required ref={emailRef} />
                 </div>
                 <div className={styles.control}>
-                    <input type="password" placeholder="Password" required ref={passwordRef} />
+                <label htmlFor='pass'>Password</label>
+                    <input type="password" id='pass' placeholder="Password" required ref={passwordRef} />
                 </div>
                 <div className={styles.control}>
-                    <input type="password" placeholder="Confirm Password" required ref={conpassRef} />
+                    <label htmlFor='cpass'>Confirm Password</label>
+                    <input type="password" id='cpass' placeholder="Confirm Password" required ref={conpassRef} />
                 </div>
                 <button type="submit" className={styles.sign}>Sign Up</button>
             </form>

@@ -1,4 +1,6 @@
 import './App.css'
+import React from 'react';
+
 import Home from './Components/Expenses/Home';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CompleteProfile from './Components/Profile/CompleteProfile';
@@ -13,7 +15,7 @@ function App() {
   const mode = useSelector(state => state.theme.mode);
 
 useEffect(() => {
-  document.body.className = mode; // will be 'light' or 'dark'
+  document.body.className = mode; 
 }, [mode]);
 
   return (
@@ -36,7 +38,7 @@ useEffect(() => {
       />
 
       <Route 
-        path="/complete-profile" 
+        path="/profile" 
         element={userLogged ? <CompleteProfile /> : <Navigate to="/login" />} 
       />
 

@@ -80,10 +80,39 @@ margin-top: 4rem;
     left: 0;
     width: 100%;
     height: 100%;
-    /* translucent background */
     display: flex;
     align-items: flex-end;
-    /* so form stays at bottom */
     z-index: 999;
-    /* above everything else */
+}
+
+.logout-btn {
+    display: block;
+    background-color: #f0a0a1;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    margin-right: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #b27679;
+}
+
+.verify-btn {
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.verify-btn:hover {
+    background-color: #147dd8;
 }

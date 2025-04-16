@@ -61,19 +61,14 @@ const downloadCSVHandler = () => {
         <h2>Expense List</h2>
         {amount > 10000 && (
   <div className={styles.premiumTools}>
-    <button
-      onClick={() => {
-        if (!premium) {
-          activatePremium();
-        } else {
-          setShowDropdown(prev => !prev);
-        }
-      }}
-      className={styles.premium}
-    >
-      {premium ? 'Premium Tools ⬇️' : 'Activate Premium'}
-    </button>
-
+    {!premium?
+    (<button className={styles.premium}
+    onClick={()=>activatePremium()}>
+    Activate Premium</button>):
+    (<button
+    className={styles.premiumTool}
+    onClick={()=> setShowDropdown(prev => !prev)}
+    >Premium Tools ⬇</button>)}
     {premium && showDropdown && (
       <div className={styles.dropdown}>
         <button onClick={() => dispatch(themeActions.toggleTheme())}>
