@@ -83,7 +83,7 @@ const Login = () => {
             <button className={styles.toggle} 
             onClick={()=>{    
             navigate('/signUp');
-            }}>New to Sharpener ? Register Now</button>
+            }}>New to ExpenseTracker ? Register Now</button>
         </section>
         </div>
     );
