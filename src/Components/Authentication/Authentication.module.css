@@ -80,7 +80,6 @@
 .showPassIcon {
     position: absolute;
     right: 20px;
-    /* increased from 12px */
     top: 60%;
     transform: translateY(-50%);
     cursor: pointer;

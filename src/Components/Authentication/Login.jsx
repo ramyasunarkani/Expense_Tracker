@@ -42,7 +42,8 @@ const Login = () => {
             token: data.idToken,
             userId: data.localId
             })
-            navigate('/home');
+            navigate('/home'); 
+
 
             emailRef.current.value = '';
             passwordRef.current.value = '';

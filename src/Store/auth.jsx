@@ -21,7 +21,7 @@ const authSlice=createSlice({
             state.userId = userId;
             state.isLoggedIn = !!token;
 
-            localStorage.setItem('token', token);     // ✅ correct
+            localStorage.setItem('token', token);     
             localStorage.setItem('userId', userId);
         },
 

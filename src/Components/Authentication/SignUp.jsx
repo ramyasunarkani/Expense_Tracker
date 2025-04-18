@@ -38,8 +38,8 @@ const SignUp = () => {
         }
     )
     .then((res) => {
-        dispatch(authActions.login(res.data.idToken));
-        navigate('/home');
+        alert("Account created successfully! Please log in.");
+    navigate('/login');;
 
         emailRef.current.value = '';
         passwordRef.current.value = '';

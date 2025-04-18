@@ -37,7 +37,6 @@ const ExpensesForm = ({ onAddExpense, editingExpense }) => {
 
     try {
       if (editingExpense) {
-        // 🔧 Fix: send full object as the second argument to PUT
         await axios.put(
           `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}/${editingExpense.id}.json?auth=${token}`,
           newExpense
@@ -45,10 +44,9 @@ const ExpensesForm = ({ onAddExpense, editingExpense }) => {
 
 
 
-        onAddExpense({ id: editingExpense.id, ...newExpense }, true); // Update with ID
+        onAddExpense({ id: editingExpense.id, ...newExpense }, true); 
         console.log('Expense updated successfully');
       } else {
-        // 🔧 Fix: pass single object as the second arg to POST
         const res = await axios.post(
         `https://expense-tracker-ef3e6-default-rtdb.firebaseio.com/expenses/${userId}.json?auth=${token}`,
         newExpense
@@ -60,7 +58,6 @@ const ExpensesForm = ({ onAddExpense, editingExpense }) => {
         console.log('Expense added successfully');
       }
 
-      // Reset form fields
       descriptionRef.current.value = '';
       amountRef.current.value = '';
       categoryRef.current.value = '';

@@ -20,7 +20,7 @@ const CompleteProfile = () => {
           const res= await axios.post(
           'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCN_BmXq84H6QLpnXwnpszsn_0UXAl7xwI',
           {
-            idToken: token // ✅ correct place
+            idToken: token 
           },
           { headers: { 'Content-Type': 'application/json' } }
         )
@@ -32,9 +32,8 @@ const CompleteProfile = () => {
       const fullName = user.displayName || '';
       const photoUrl = user.photoUrl || '';
 
-      // Dispatch profileCompletion action if both name and photoUrl exist
       if (fullName.trim().length > 0 && photoUrl.trim().length > 0) {
-          dispatch(profileActions.profileCompletion()); // Mark profile as complete in Redux
+          dispatch(profileActions.profileCompletion()); 
       }
 
       setProfileData({
@@ -88,8 +87,7 @@ const CompleteProfile = () => {
     photoUrlRef.current.value = '';
     setTimeout(() => {
   profileDataFetch();
-}, 500); // wait 0.5 second
-
+}, 500); 
   } catch (err) {
     const errorMessage = err.response?.data?.error?.message || 'Something went wrong!';
     alert(`Error: ${errorMessage}`);
@@ -153,7 +151,7 @@ const CompleteProfile = () => {
           </div>
           <button type="submit" className={styles["update-btn"]} >Update</button>
         </form>)}
-      </div>):(<button onClick={()=>setUpdate(true)} className={styles.updateBtn}>Update</button>)}
+      </div>):(<button onClick={()=>setUpdate(true)} className={styles.updateBtn}>Update Details</button>)}
     </>
   );
 };

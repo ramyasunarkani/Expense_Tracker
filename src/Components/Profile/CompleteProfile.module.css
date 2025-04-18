@@ -80,11 +80,8 @@
 
 }
 .profile-dp {
-    /* Make sure this class doesn't hide or distort the image */
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    /* If you want circular image */
     object-fit: cover;
-    /* If you want to maintain image aspect ratio */
 }

@@ -26,8 +26,7 @@ const Home = () => {
 
   function logOutHandler() {
         dispatch(authActions.logout()) 
-          setIsVerified(false); // ⬅️ Reset verification status locally
-
+          setIsVerified(false); 
         console.log("Redirecting to login..."); 
         navigate('/');
     }
